@@ -21,8 +21,9 @@ final class SignInSceneViewModel: ObservableObject {
   
   // MARK: - FUNCTIONS
   @MainActor
-  func signIn() async {
+  func signIn() {
     state.isLoading = true
+    //state.isEmailInvalid = false
     
     if !isEmail(state.email) {
       state.isLoading = false
@@ -34,27 +35,32 @@ final class SignInSceneViewModel: ObservableObject {
       state.isPasswordEmpty = true
     }
     
-    guard !state.isEmailInvalid, state.isPasswordEmpty else {
+    guard state.isEmailInvalid == false, state.isPasswordEmpty == false else {
       return
     }
     
-    let result = await signInUseCase.execute(email: state.email, password: state.password)
-    
-    state.isLoading = false
-    
-    switch result {
-      case .success(let user):
-        state.isEmailInvalid = false
-        state.isPasswordEmpty = false
-        state.doesPasswordObeyPolicy = true
-        state.errorMessage = ""
-      case .failure(let error):
-        switch error {
-          case .invalidEmailOrPassword(let message),
-              .unknownException(let message),
-              .userAlreadyExists(let message):
-            state.errorMessage = message
-        }
+    Task {
+      let result = await signInUseCase.execute(email: state.email, password: state.password)
+      
+      state.isLoading = false
+      
+      switch result {
+        case .success(let user):
+          state.isEmailInvalid = false
+          state.isPasswordEmpty = false
+          state.doesPasswordObeyPolicy = true
+          state.errorMessage = ""
+          
+          //TODO: Cache token into the Keychain storage
+          //TODO: Possible introduction of AuthContext struct where user token will be cached, so no need of constant Keychain fetching
+        case .failure(let error):
+          switch error {
+            case .invalidEmailOrPassword(let message),
+                .unknownException(let message),
+                .userAlreadyExists(let message):
+              state.errorMessage = message
+          }
+      }
     }
   }
   

@@ -13,16 +13,10 @@ class SignUpUseCase {
   }
   
   func execute(email: String, username: String, password: String) async -> Result<User, AuthenticationException> {
-    do {
-      let user = try await repository.signUp(
-        email: email,
-        username: username,
-        password: password
-      )
-      return .success(user)
-    } catch {
-      let failure = error as? AuthenticationException ?? AuthenticationException.unknownException("UnknownException")
-      return .failure(failure)
-    }
+    return await UseCase.use(repository.signUp)
+      .input((email: email, username: username, password: password))
+      .output(User.self)
+      .canThrow(AuthenticationException.self)
+      .execute()
   }
 }

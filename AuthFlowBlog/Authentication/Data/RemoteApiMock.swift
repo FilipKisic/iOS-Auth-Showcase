@@ -14,17 +14,19 @@ class RemoteApiMock: AuthenticationRepositoryType {
   func signIn(email: String, password: String) async throws -> User {
     let user = userDatabase.first(where: { $0.email == email && $0.password == password })
     
+    try await Task.sleep(nanoseconds: 2_000_000_000)
+    
     if (user == nil) {
       throw AuthenticationException.invalidEmailOrPassword("Invalid email or password.")
     }
-    
-    try await Task.sleep(nanoseconds: 2_000_000_000)
     
     return user!
   }
   
   func signUp(email: String, username: String, password: String) async throws -> User {
     let potentialUser = userDatabase.first(where: { $0.email == email || $0.username == username})
+    
+    try await Task.sleep(nanoseconds: 2_000_000_000)
     
     if (potentialUser != nil) {
       throw AuthenticationException.userAlreadyExists("User already exists.")
@@ -38,8 +40,6 @@ class RemoteApiMock: AuthenticationRepositoryType {
     )
     
     userDatabase.append(newUser)
-    
-    try await Task.sleep(nanoseconds: 2_000_000_000)
     
     return newUser
   }

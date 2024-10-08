@@ -33,10 +33,11 @@ struct SignInScene: View {
   
   // MARK: - FUNCTIONS
   private func handleStateChange(_ state: SignInSceneState) {
-    print("isEmailValid: \(state.isEmailInvalid)")
+    print("isEmailInvalid: \(state.isEmailInvalid)")
     print("isLoading: \(state.isLoading)")
     print("isPasswordEmpty: \(state.isPasswordEmpty)")
     print("errorMessage: \(state.errorMessage)")
+    print("------------------------------------------")
   }
 }
 
@@ -44,20 +45,6 @@ struct SignInScene: View {
 private enum FocusedField {
   case email
   case password
-}
-
-// MARK: - INPUT MODIFIER
-private struct CustomInputFieldModifier: ViewModifier {
-  func body(content: Content) -> some View {
-    content
-      .padding(10)
-      .overlay(
-        RoundedRectangle(cornerRadius: 7)
-          .stroke(Color.gray, lineWidth: 1)
-      )
-      .autocorrectionDisabled()
-      .textInputAutocapitalization(.never)
-  }
 }
 
 private extension SignInScene {
@@ -81,19 +68,16 @@ private extension SignInScene {
     Spacer()
       .frame(height: 15)
     
-    TextField("Password", text: $viewModel.state.password)
+    SecureField("Password", text: $viewModel.state.password)
+      .textContentType(.password)
       .modifier(CustomInputFieldModifier())
       .fontDesign(.rounded)
-      .textContentType(.password)
   }
   
   @ViewBuilder
   func renderButton() -> some View {
     Button {
-      print("About to sign in")
-      Task {
-        await viewModel.signIn()
-      }
+      viewModel.signIn()
     } label: {
       Text("Sign in")
         .frame(maxWidth: .infinity)
@@ -107,8 +91,23 @@ private extension SignInScene {
   }
 }
 
-// MARK: - PREVIEW
-#Preview {
-  var viewModel = SignInSceneViewModel()
-  return SignInScene(viewModel: viewModel)
+
+// MARK: - INPUT MODIFIER
+private struct CustomInputFieldModifier: ViewModifier {
+  func body(content: Content) -> some View {
+    content
+      .padding(10)
+      .overlay(
+        RoundedRectangle(cornerRadius: 7)
+          .stroke(Color.gray, lineWidth: 1)
+      )
+      .autocorrectionDisabled()
+      .textInputAutocapitalization(.never)
+  }
 }
+
+// MARK: - PREVIEW
+//#Preview {
+//  var viewModel = SignInSceneViewModel()
+//  return SignInScene(viewModel: viewModel)
+//}
