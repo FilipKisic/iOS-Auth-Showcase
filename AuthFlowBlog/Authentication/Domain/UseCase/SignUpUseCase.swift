@@ -8,13 +8,13 @@
 class SignUpUseCase {
   private var repository: AuthenticationRepositoryType
   
-  init(repository: AuthenticationRepositoryType) {
+  init(_ repository: AuthenticationRepositoryType) {
     self.repository = repository
   }
   
   func execute(email: String, username: String, password: String) async -> Result<User, AuthenticationException> {
     do {
-      let user = try await repository.singUp(
+      let user = try await repository.signUp(
         email: email,
         username: username,
         password: password

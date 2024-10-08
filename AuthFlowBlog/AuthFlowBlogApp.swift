@@ -9,9 +9,9 @@ import SwiftUI
 
 @main
 struct AuthFlowBlogApp: App {
-    var body: some Scene {
-        WindowGroup {
-            SignInScene()
-        }
+  var body: some Scene {
+    WindowGroup {
+      SignInScene()
     }
+  }
 }

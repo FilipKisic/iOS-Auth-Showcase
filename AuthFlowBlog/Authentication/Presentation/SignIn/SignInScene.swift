@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SignInScene: View {
   // MARK: - PROPERTIES
-  @StateObject var viewModel: SignInSceneViewModel
+  @StateObject var viewModel: SignInSceneViewModel = .init()
   @FocusState private var focusedField: FocusedField?
   
   // MARK: - BODY
@@ -28,6 +28,15 @@ struct SignInScene: View {
     } //: VSTACK
     .padding()
     .scrollDismissesKeyboard(.immediately)
+    .onChange(of: viewModel.state, perform: handleStateChange)
+  }
+  
+  // MARK: - FUNCTIONS
+  private func handleStateChange(_ state: SignInSceneState) {
+    print("isEmailValid: \(state.isEmailInvalid)")
+    print("isLoading: \(state.isLoading)")
+    print("isPasswordEmpty: \(state.isPasswordEmpty)")
+    print("errorMessage: \(state.errorMessage)")
   }
 }
 
@@ -81,6 +90,9 @@ private extension SignInScene {
   func renderButton() -> some View {
     Button {
       print("About to sign in")
+      Task {
+        await viewModel.signIn()
+      }
     } label: {
       Text("Sign in")
         .frame(maxWidth: .infinity)
@@ -96,5 +108,6 @@ private extension SignInScene {
 
 // MARK: - PREVIEW
 #Preview {
-  SignInScene()
+  var viewModel = SignInSceneViewModel()
+  return SignInScene(viewModel: viewModel)
 }

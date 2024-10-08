@@ -6,6 +6,6 @@
 //
 
 protocol AuthenticationRepositoryType {
-  func singIn(email: String, password: String) async throws -> User
-  func singUp(email: String, username: String, password: String) async throws -> User
+  func signIn(email: String, password: String) async throws -> User
+  func signUp(email: String, username: String, password: String) async throws -> User
 }

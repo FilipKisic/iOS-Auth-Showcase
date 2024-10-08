@@ -15,15 +15,14 @@ final class SignInSceneViewModel: ObservableObject {
   @Published var state: SignInSceneState
   
   // MARK: - CONSTRUCTOR
-  init() {
-    self.state = SignInSceneState()
+  init(state: SignInSceneState = SignInSceneState()) {
+    self.state = state
   }
   
   // MARK: - FUNCTIONS
+  @MainActor
   func signIn() async {
     state.isLoading = true
-    state.isEmailInvalid = false
-    state.doesPasswordObeyPolicy = true
     
     if (!isEmail(state.email)) {
       state.isLoading = false
@@ -66,4 +65,4 @@ final class SignInSceneViewModel: ObservableObject {
   }
 }
 
-//TODO: What about setting the user in the app context, create generic AuthContext or AppContext struct? Nothing will be cached except the Token which will be stored in the Keychain
+//Nothing will be cached except the Token which will be stored in the Keychain

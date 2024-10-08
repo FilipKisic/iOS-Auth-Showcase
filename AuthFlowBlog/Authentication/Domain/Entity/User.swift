@@ -5,7 +5,7 @@
 //  Created by Filip Kisić on 25.09.2024..
 //
 
-class User {
+struct User {
   var email: String
   var password: String
   var username: String

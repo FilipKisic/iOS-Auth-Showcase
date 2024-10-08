@@ -13,12 +13,10 @@ class SignInUseCase {
   }
   
   func execute(email: String, password: String) async -> Result<User, AuthenticationException> {
-    do {
-      let user = try await repository.singIn(email: email, password: password)
-      return .success(user)
-    } catch {
-      let failure = error as? AuthenticationException ?? AuthenticationException.unknownException("UnknownException")
-      return .failure(failure)
-    }
+    return await UseCase.use(repository.signIn)
+      .input((email, password))
+      .output(User.self)
+      .canThrow(AuthenticationException.self)
+      .execute()
   }
 }

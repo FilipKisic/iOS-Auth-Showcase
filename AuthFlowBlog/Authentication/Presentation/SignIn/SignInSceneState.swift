@@ -5,7 +5,7 @@
 //  Created by Filip Kisić on 25.09.2024..
 //
 
-struct SignInSceneState {
+struct SignInSceneState: Equatable {
   var email: String = ""
   var password: String = ""
   var isLoading: Bool = false
