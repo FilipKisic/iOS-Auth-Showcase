@@ -11,7 +11,7 @@ struct User {
   var username: String
   var token: String
   
-  init(email: String, password: String, username: String, token: String) {
+  init (email: String, password: String, username: String, token: String) {
     self.email = email
     self.password = password
     self.username = username

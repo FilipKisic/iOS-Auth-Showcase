@@ -15,7 +15,7 @@ final class SignInSceneViewModel: ObservableObject {
   @Published var state: SignInSceneState
   
   // MARK: - CONSTRUCTOR
-  init(state: SignInSceneState = SignInSceneState()) {
+  init (state: SignInSceneState = SignInSceneState()) {
     self.state = state
   }
   
@@ -24,12 +24,12 @@ final class SignInSceneViewModel: ObservableObject {
   func signIn() async {
     state.isLoading = true
     
-    if (!isEmail(state.email)) {
+    if !isEmail(state.email) {
       state.isLoading = false
       state.isEmailInvalid = true
     }
     
-    if (state.password.isEmpty) {
+    if state.password.isEmpty {
       state.isLoading = false
       state.isPasswordEmpty = true
     }

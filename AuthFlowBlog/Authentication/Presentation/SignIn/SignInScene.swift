@@ -84,6 +84,7 @@ private extension SignInScene {
     TextField("Password", text: $viewModel.state.password)
       .modifier(CustomInputFieldModifier())
       .fontDesign(.rounded)
+      .textContentType(.password)
   }
   
   @ViewBuilder
