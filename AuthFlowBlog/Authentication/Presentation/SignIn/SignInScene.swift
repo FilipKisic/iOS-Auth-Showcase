@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct SignInScene: View {
+struct SignInScene<ViewModel: ViewModelType>: SceneView where ViewModel.State == SignInSceneState, ViewModel.Action == SignInSceneAction
+{
   // MARK: - PROPERTIES
-  @StateObject var viewModel: SignInSceneViewModel = .init()
+  @StateObject var viewModel: ViewModel
   @FocusState private var focusedField: FocusedField?
   
   // MARK: - BODY
@@ -28,7 +29,6 @@ struct SignInScene: View {
     } //: VSTACK
     .padding()
     .scrollDismissesKeyboard(.immediately)
-    .onChange(of: viewModel.state, perform: handleStateChange)
   }
   
   // MARK: - FUNCTIONS
@@ -61,14 +61,14 @@ private extension SignInScene {
   
   @ViewBuilder
   func renderFields() -> some View {
-    TextField("Email", text: $viewModel.state.email)
+      TextField("Email", text: $viewModel.state.email)
       .modifier(CustomInputFieldModifier())
       .fontDesign(.rounded)
     
     Spacer()
       .frame(height: 15)
     
-    SecureField("Password", text: $viewModel.state.password)
+      SecureField("Password", text: $viewModel.state.password)
       .textContentType(.password)
       .modifier(CustomInputFieldModifier())
       .fontDesign(.rounded)
@@ -77,7 +77,7 @@ private extension SignInScene {
   @ViewBuilder
   func renderButton() -> some View {
     Button {
-      viewModel.signIn()
+        viewModel.handle(.signIn)
     } label: {
       Text("Sign in")
         .frame(maxWidth: .infinity)
@@ -107,7 +107,7 @@ private struct CustomInputFieldModifier: ViewModifier {
 }
 
 // MARK: - PREVIEW
-//#Preview {
-//  var viewModel = SignInSceneViewModel()
-//  return SignInScene(viewModel: viewModel)
-//}
+#Preview {
+  var viewModel = SignInSceneViewModel()
+  return SignInScene(viewModel: viewModel)
+}

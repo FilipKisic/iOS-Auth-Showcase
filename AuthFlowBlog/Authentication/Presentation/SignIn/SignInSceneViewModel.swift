@@ -8,17 +8,28 @@
 import SwiftUI
 import Dependency
 
-final class SignInSceneViewModel: ObservableObject {
+final class SignInSceneViewModel: ViewModelType {
   // MARK: - PROPERTIES
   @Dependency(\.signInUseCase) private var signInUseCase: SignInUseCase
   
   @Published var state: SignInSceneState
-  
+
   // MARK: - CONSTRUCTOR
   init (state: SignInSceneState = SignInSceneState()) {
     self.state = state
   }
-  
+
+    func handle(_ action: SignInSceneAction) {
+        switch action {
+        case .appear:
+            return
+        case .signIn:
+            signIn()
+        case .dismiss:
+            return
+        }
+    }
+
   // MARK: - FUNCTIONS
   @MainActor
   func signIn() {
