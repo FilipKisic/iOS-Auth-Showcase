@@ -11,19 +11,35 @@ import Dependency
 final class SignInSceneViewModel: ObservableObject {
   // MARK: - PROPERTIES
   @Dependency(\.signInUseCase) private var signInUseCase: SignInUseCase
+  //@Dependency(\.coordinator) private var coordinator: any CoordinatorType
+  
+  private let coordinator: any CoordinatorType
+  
+  @KeychainStorage("userToken") private var userToken: String
+  @KeychainStorage("userEmail") private var userEmail: String
   
   @Published var state: SignInSceneState
   
   // MARK: - CONSTRUCTOR
-  init (state: SignInSceneState = SignInSceneState()) {
+  init (state: SignInSceneState = SignInSceneState(), coordinator: any CoordinatorType) {
     self.state = state
+    self.coordinator = coordinator
+  }
+  
+  func handle(_ action: SignInSceneAction) {
+    switch action {
+      case .signIn:
+        signIn()
+      case .redirectToSignUp:
+        print("Redirect to sign up")
+        //coordinator.present(.home)
+    }
   }
   
   // MARK: - FUNCTIONS
-  @MainActor
-  func signIn() {
+  private func signIn() {
     state.isLoading = true
-    //state.isEmailInvalid = false
+    state.isEmailInvalid = false
     
     if !isEmail(state.email) {
       state.isLoading = false
@@ -51,7 +67,10 @@ final class SignInSceneViewModel: ObservableObject {
           state.doesPasswordObeyPolicy = true
           state.errorMessage = ""
           
-          //TODO: Cache token into the Keychain storage
+          userToken = user.token
+          userEmail = user.email
+          
+          coordinator.present(.home)
           //TODO: Possible introduction of AuthContext struct where user token will be cached, so no need of constant Keychain fetching
         case .failure(let error):
           switch error {
@@ -70,5 +89,3 @@ final class SignInSceneViewModel: ObservableObject {
     return NSPredicate(format: "SELF MATCHES %@", pattern).evaluate(with: potentialEmail)
   }
 }
-
-//Nothing will be cached except the Token which will be stored in the Keychain

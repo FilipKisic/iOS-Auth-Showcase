@@ -6,12 +6,29 @@
 //
 
 import SwiftUI
+import Dependency
 
 @main
 struct AuthFlowBlogApp: App {
+  // MARK: - PROPERTIES
+  @StateObject private var coordinator = Coordinator()
+  private let sceneFactory: SceneFactory
+  
+  // MARK: - CONSTRUCTOR
+  init() {
+    sceneFactory = SceneFactory()
+  }
+  
+  // MARK: - BODY
   var body: some Scene {
     WindowGroup {
-      SignInScene()
+      NavigationStack(path: $coordinator.path) {
+        sceneFactory.build(.signIn)
+          .navigationDestination(for: Screen.self) { screen in
+            sceneFactory.build(screen)
+          }
+      } //: NAVIGATION STACK
+      .environmentObject(coordinator)
     }
   }
 }

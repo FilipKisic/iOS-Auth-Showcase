@@ -1,16 +1,17 @@
 //
-//  SignInScene.swift
+//  SignUpScene.swift
 //  AuthFlowBlog
 //
-//  Created by Filip Kisić on 25.09.2024..
+//  Created by Filip Kisić on 14.10.2024..
 //
 
 import SwiftUI
 
-struct SignInScene: View {
+struct SignUpScene: View {
   // MARK: - PROPERTIES
-  @StateObject var viewModel: SignInSceneViewModel
-  @FocusState private var focusedField: FocusedField?
+  @State private var email: String = ""
+  @State private var password: String = ""
+  @State private var confirmPassword: String = ""
   
   // MARK: - BODY
   var body: some View {
@@ -19,22 +20,22 @@ struct SignInScene: View {
         renderHeader()
         
         Spacer()
-          .frame(height: 30)
+          .frame(height: 20)
         
         renderFields()
         
         Spacer()
-          .frame(height: 50)
+          .frame(height: 30)
         
         renderButton()
         
         Spacer()
         
         renderFooter()
+    
       } //: VSTACK
       .padding(.vertical, 50)
       .padding(.horizontal, 20)
-      .scrollDismissesKeyboard(.immediately)
       
       Image("RunningMan")
         .resizable()
@@ -45,13 +46,7 @@ struct SignInScene: View {
   }
 }
 
-// MARK: - ENUM
-private enum FocusedField {
-  case email
-  case password
-}
-
-private extension SignInScene {
+private extension SignUpScene {
   @ViewBuilder
   func renderHeader() -> some View {
     HStack {
@@ -63,29 +58,30 @@ private extension SignInScene {
       Spacer()
     } //: HSTACK
     .padding(.vertical, 40)
-    Text("Welcome back!")
+    Text("Hello, welcome!")
       .font(.custom("Lato-Bold", size: 22))
-      
-    Text("Please enter your credentials to proceed.")
-      .font(.custom("Lato-Regular", size: 14))
   }
   
   @ViewBuilder
   func renderFields() -> some View {
-    CustomTextFieldView("Email", $viewModel.state.email)
-    
-    Spacer()
-      .frame(height: 20)
-    
-    CustomTextFieldView("Password", $viewModel.state.password, isPassword: true)
+    VStack(alignment: .leading) {
+      CustomTextFieldView("Email", $email)
+      
+      Spacer()
+        .frame(height: 20)
+      
+      CustomTextFieldView("Password", $password)
+      
+      Spacer()
+        .frame(height: 20)
+      
+      CustomTextFieldView("Confirm password", $confirmPassword)
+    }
   }
   
   @ViewBuilder
   func renderButton() -> some View {
-    CustomButtonView(
-      isLoading: $viewModel.state.isLoading,
-      function: { viewModel.handle(.signIn) }
-    )
+    CustomButtonView(isLoading: .constant(false), function: {} )
   }
   
   @ViewBuilder
@@ -93,10 +89,10 @@ private extension SignInScene {
     HStack {
       Spacer()
       
-      Text("Don't have an account?")
+      Text("Already have an account?")
         .font(.custom("Lato-Regular", size: 14))
       
-      Text("Sign up.")
+      Text("Sign in.")
         .font(.custom("Lato-Bold", size: 14))
         .foregroundColor(.branding)
         .onTapGesture {
@@ -110,7 +106,5 @@ private extension SignInScene {
 
 // MARK: - PREVIEW
 #Preview {
-  //let coordinator = Coordinator()
-  let viewModel = SignInSceneViewModel()
-  SignInScene(viewModel: viewModel)
+  SignUpScene()
 }
