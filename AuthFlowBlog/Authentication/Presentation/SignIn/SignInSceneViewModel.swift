@@ -8,12 +8,9 @@
 import SwiftUI
 import Dependency
 
-final class SignInSceneViewModel: ObservableObject {
+final class SignInSceneViewModel: ViewModelType {
   // MARK: - PROPERTIES
   @Dependency(\.signInUseCase) private var signInUseCase: SignInUseCase
-  //@Dependency(\.coordinator) private var coordinator: any CoordinatorType
-  
-  private let coordinator: any CoordinatorType
   
   @KeychainStorage("userToken") private var userToken: String
   @KeychainStorage("userEmail") private var userEmail: String
@@ -21,18 +18,18 @@ final class SignInSceneViewModel: ObservableObject {
   @Published var state: SignInSceneState
   
   // MARK: - CONSTRUCTOR
-  init (state: SignInSceneState = SignInSceneState(), coordinator: any CoordinatorType) {
+  init (state: SignInSceneState = SignInSceneState()) {
     self.state = state
-    self.coordinator = coordinator
   }
   
   func handle(_ action: SignInSceneAction) {
     switch action {
+      case .appear:
+        return
       case .signIn:
         signIn()
-      case .redirectToSignUp:
-        print("Redirect to sign up")
-        //coordinator.present(.home)
+      case .dismiss:
+        return
     }
   }
   
@@ -69,9 +66,6 @@ final class SignInSceneViewModel: ObservableObject {
           
           userToken = user.token
           userEmail = user.email
-          
-          coordinator.present(.home)
-          //TODO: Possible introduction of AuthContext struct where user token will be cached, so no need of constant Keychain fetching
         case .failure(let error):
           switch error {
             case .invalidEmailOrPassword(let message),

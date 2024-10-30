@@ -6,6 +6,7 @@
 //
 
 enum SignInSceneAction {
+  case appear
   case signIn
-  case redirectToSignUp
+  case dismiss
 }

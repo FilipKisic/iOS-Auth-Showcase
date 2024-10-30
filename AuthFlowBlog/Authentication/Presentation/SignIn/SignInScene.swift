@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct SignInScene: View {
+struct SignInScene<ViewModel: ViewModelType>: SceneView where ViewModel.State == SignInSceneState, ViewModel.Action == SignInSceneAction
+{
   // MARK: - PROPERTIES
-  @StateObject var viewModel: SignInSceneViewModel
+  @StateObject var viewModel: ViewModel
   @FocusState private var focusedField: FocusedField?
   
   // MARK: - BODY
@@ -110,7 +111,6 @@ private extension SignInScene {
 
 // MARK: - PREVIEW
 #Preview {
-  //let coordinator = Coordinator()
-  let viewModel = SignInSceneViewModel()
-  SignInScene(viewModel: viewModel)
+  var viewModel = SignInSceneViewModel()
+  return SignInScene(viewModel: viewModel)
 }

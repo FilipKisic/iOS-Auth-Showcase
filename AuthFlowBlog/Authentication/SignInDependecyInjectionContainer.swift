@@ -19,10 +19,6 @@ private struct SignInUseCaseKey: DependencyKey {
   static var currentValue = SignInUseCase(repository)
 }
 
-private struct CoordinatorKey: DependencyKey {
-  static var currentValue: any CoordinatorType = Coordinator()
-}
-
 // MARK: - GETTERS
 extension DependencyValues {
   var authenticationRepository: AuthenticationRepositoryType {
@@ -33,10 +29,5 @@ extension DependencyValues {
   var signInUseCase: SignInUseCase {
     get { Self[SignInUseCaseKey.self] }
     set { Self[SignInUseCaseKey.self] = newValue }
-  }
-  
-  var coordinator: any CoordinatorType {
-    get { Self[CoordinatorKey.self] }
-    set { Self[CoordinatorKey.self] = newValue }
   }
 }
