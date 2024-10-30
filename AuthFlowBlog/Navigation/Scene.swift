@@ -11,5 +11,5 @@ import UIKit
 // MARK: - Scene
 
 enum Scene: Hashable {
-    case signIn
+  case signIn
 }
