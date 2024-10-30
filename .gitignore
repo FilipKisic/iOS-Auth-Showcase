@@ -1,0 +1,53 @@
+# Xcode
+# User-specific files
+*.xcuserstate
+*.xcuserdata/
+*.moved-aside
+*.xcscmblueprint
+
+# Build artifacts
+DerivedData/
+build/
+*.ipa
+*.app
+*.dSYM
+*.xcworkspace
+
+# Swift Package Manager
+Packages/
+.swiftpm/
+Package.resolved
+# If using Carthage
+# Carthage/Build/
+# Cartfile.resolved
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Other
+.DS_Store
+*.swp
+*.lock
+*.xcassets
+*.plist
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+*.jks
+*.pem
+*.mobileprovision
+
+# SwiftLint
+.swiftlint.yml
+
+# Testing
+test_output/
+*.result
+*.xcresult
+
+# Firebase/Crashlytics/Analytics
+GoogleService-Info.plist
