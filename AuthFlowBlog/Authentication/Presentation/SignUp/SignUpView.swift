@@ -2,16 +2,15 @@
 //  SignUpScene.swift
 //  AuthFlowBlog
 //
-//  Created by Filip Kisić on 14.10.2024..
+//  Created by Filip Kisić on 14.10.2024.
 //
 
 import SwiftUI
 
-struct SignUpScene: View {
+struct SignUpView: View {
   // MARK: - PROPERTIES
-  @State private var email: String = ""
-  @State private var password: String = ""
-  @State private var confirmPassword: String = ""
+  @EnvironmentObject private var router: Router
+  @EnvironmentObject private var viewModel: SignUpViewModel
   
   // MARK: - BODY
   var body: some View {
@@ -42,11 +41,16 @@ struct SignUpScene: View {
         .scaledToFit()
         .frame(width: 256)
     } //: ZSTACK
+    .onChange(of: viewModel.state.isAuthenticated, perform: handleStateChange)
     .ignoresSafeArea(.all)
+  }
+  
+  func handleStateChange(isAuthenticated: Bool) {
+    if isAuthenticated { router.navigateTo(.home) }
   }
 }
 
-private extension SignUpScene {
+private extension SignUpView {
   @ViewBuilder
   func renderHeader() -> some View {
     HStack {
@@ -65,23 +69,27 @@ private extension SignUpScene {
   @ViewBuilder
   func renderFields() -> some View {
     VStack(alignment: .leading) {
-      CustomTextFieldView("Email", $email)
+      CustomTextFieldView("Email", $viewModel.state.email, type: .email)
       
       Spacer()
-        .frame(height: 20)
+        .frame(height: 10)
       
-      CustomTextFieldView("Password", $password)
+      CustomTextFieldView("Username", $viewModel.state.username, type: .text)
       
       Spacer()
-        .frame(height: 20)
+        .frame(height: 10)
       
-      CustomTextFieldView("Confirm password", $confirmPassword)
+      CustomTextFieldView("Password", $viewModel.state.password, type: .password)
     }
   }
   
   @ViewBuilder
   func renderButton() -> some View {
-    CustomButtonView(isLoading: .constant(false), function: {} )
+    CustomButtonView(
+      label: "Sign up",
+      isLoading: $viewModel.state.isLoading,
+      function: { viewModel.signUp() }
+    )
   }
   
   @ViewBuilder
@@ -96,7 +104,7 @@ private extension SignUpScene {
         .font(.custom("Lato-Bold", size: 14))
         .foregroundColor(.branding)
         .onTapGesture {
-          //redirect to sign up
+          router.navigateBack()
         }
       
       Spacer()
@@ -106,5 +114,5 @@ private extension SignUpScene {
 
 // MARK: - PREVIEW
 #Preview {
-  SignUpScene()
+  SignUpView()
 }

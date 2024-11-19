@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CustomButtonView: View {
   // MARK: - PROPERTIES
+  let label: String
   @Binding var isLoading: Bool
   let function: () -> Void
   
@@ -25,7 +26,7 @@ struct CustomButtonView: View {
           .frame(maxWidth: .infinity)
           .padding(.vertical, 15)
       } else {
-        Text("Sign in")
+        Text(label)
           .frame(maxWidth: .infinity)
           .padding(15)
           .foregroundStyle(Color.white)
@@ -41,6 +42,6 @@ struct CustomButtonView: View {
 // MARK: - PREVIEW
 #Preview {
   @Previewable @State var isLoading: Bool = false
-  CustomButtonView(isLoading: $isLoading , function: {})
+  CustomButtonView(label: "Sign in",  isLoading: $isLoading , function: {})
     .padding()
 }

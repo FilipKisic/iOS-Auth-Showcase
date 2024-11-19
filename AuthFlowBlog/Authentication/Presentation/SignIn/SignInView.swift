@@ -7,15 +7,21 @@
 
 import SwiftUI
 
-struct SignInScene<ViewModel: ViewModelType>: SceneView where ViewModel.State == SignInSceneState, ViewModel.Action == SignInSceneAction
-{
+struct SignInView: View {
   // MARK: - PROPERTIES
-  @StateObject var viewModel: ViewModel
+  @EnvironmentObject private var router: Router
+  @EnvironmentObject private var viewModel: SignInViewModel
+  
   @FocusState private var focusedField: FocusedField?
   
   // MARK: - BODY
   var body: some View {
     ZStack(alignment: .bottomTrailing) {
+      Image("RunningMan")
+        .resizable()
+        .scaledToFit()
+        .frame(width: 256)
+      
       VStack(alignment: .leading) {
         renderHeader()
         
@@ -36,13 +42,21 @@ struct SignInScene<ViewModel: ViewModelType>: SceneView where ViewModel.State ==
       .padding(.vertical, 50)
       .padding(.horizontal, 20)
       .scrollDismissesKeyboard(.immediately)
-      
-      Image("RunningMan")
-        .resizable()
-        .scaledToFit()
-        .frame(width: 256)
     } //: ZSTACK
+    .alert(isPresented: $viewModel.state.isErrorVisible) {
+      Alert(
+        title: Text("There was an error"),
+        message: Text(viewModel.state.errorMessage),
+        dismissButton: .default(Text("OK"))
+      )
+    }
+    .onChange(of: viewModel.state.isAuthenticated, perform: handleStateChange)
     .ignoresSafeArea(.all)
+    .navigationBarBackButtonHidden()
+  }
+  
+  func handleStateChange(isAuthenticated: Bool) {
+    if isAuthenticated { router.navigateTo(.home) }
   }
 }
 
@@ -52,7 +66,7 @@ private enum FocusedField {
   case password
 }
 
-private extension SignInScene {
+private extension SignInView {
   @ViewBuilder
   func renderHeader() -> some View {
     HStack {
@@ -66,43 +80,44 @@ private extension SignInScene {
     .padding(.vertical, 40)
     Text("Welcome back!")
       .font(.custom("Lato-Bold", size: 22))
-      
+    
     Text("Please enter your credentials to proceed.")
       .font(.custom("Lato-Regular", size: 14))
   }
   
   @ViewBuilder
   func renderFields() -> some View {
-    CustomTextFieldView("Email", $viewModel.state.email)
+    CustomTextFieldView("Email", $viewModel.state.email, type: .email)
     
-    Spacer()
-      .frame(height: 20)
+    Spacer().frame(height: 10)
     
-    CustomTextFieldView("Password", $viewModel.state.password, isPassword: true)
+    CustomTextFieldView("Password", $viewModel.state.password, type: .password)
   }
   
   @ViewBuilder
   func renderButton() -> some View {
     CustomButtonView(
+      label: "Sign in",
       isLoading: $viewModel.state.isLoading,
-      function: { viewModel.handle(.signIn) }
+      function: { viewModel.signIn() }
     )
   }
   
   @ViewBuilder
   func renderFooter() -> some View {
-    HStack {
+    HStack(alignment: .center) {
       Spacer()
       
       Text("Don't have an account?")
         .font(.custom("Lato-Regular", size: 14))
       
-      Text("Sign up.")
-        .font(.custom("Lato-Bold", size: 14))
-        .foregroundColor(.branding)
-        .onTapGesture {
-          //redirect to sign up
-        }
+      Button {
+        router.navigateTo(.signUp)
+      } label: {
+        Text("Sign up.")
+          .font(.custom("Lato-Bold", size: 14))
+          .foregroundColor(.branding)
+      }
       
       Spacer()
     } //: HSTACK
@@ -111,6 +126,8 @@ private extension SignInScene {
 
 // MARK: - PREVIEW
 #Preview {
-  var viewModel = SignInSceneViewModel()
-  return SignInScene(viewModel: viewModel)
+  ZStack {
+    return SignInView()
+  }
+  .environmentObject(SignInViewModel())
 }
