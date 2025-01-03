@@ -8,15 +8,29 @@
 
 /* Begin PBXBuildFile section */
 		121D5E302CA52F5D0082CEC2 /* Dependency in Frameworks */ = {isa = PBXBuildFile; productRef = 121D5E2F2CA52F5D0082CEC2 /* Dependency */; };
+		1279A0682CB554EF005A2039 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1279A0672CB554EF005A2039 /* KeychainSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		121EC6F32CA42E6700C520B2 /* AuthFlowBlog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuthFlowBlog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		122A394B2CBD3ECF00F93CF3 /* Exceptions for "AuthFlowBlog" folder in "AuthFlowBlog" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 121EC6F22CA42E6700C520B2 /* AuthFlowBlog */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		121EC6F52CA42E6700C520B2 /* AuthFlowBlog */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				122A394B2CBD3ECF00F93CF3 /* Exceptions for "AuthFlowBlog" folder in "AuthFlowBlog" target */,
+			);
 			path = AuthFlowBlog;
 			sourceTree = "<group>";
 		};
@@ -27,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1279A0682CB554EF005A2039 /* KeychainSwift in Frameworks */,
 				121D5E302CA52F5D0082CEC2 /* Dependency in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,6 +86,7 @@
 			name = AuthFlowBlog;
 			packageProductDependencies = (
 				121D5E2F2CA52F5D0082CEC2 /* Dependency */,
+				1279A0672CB554EF005A2039 /* KeychainSwift */,
 			);
 			productName = AuthFlowBlog;
 			productReference = 121EC6F32CA42E6700C520B2 /* AuthFlowBlog.app */;
@@ -102,6 +118,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				121D5E2E2CA52F5D0082CEC2 /* XCRemoteSwiftPackageReference "Dependency" */,
+				1279A0662CB554EF005A2039 /* XCRemoteSwiftPackageReference "keychain-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 121EC6F42CA42E6700C520B2 /* Products */;
@@ -258,13 +275,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AuthFlowBlog/Preview Content\"";
-				DEVELOPMENT_TEAM = JKVW4Y7PD6;
+				DEVELOPMENT_TEAM = USTX8WQ57A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_FILE = AuthFlowBlog/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -276,9 +295,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = kisic.filip.AuthFlowBlog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -287,13 +310,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AuthFlowBlog/Preview Content\"";
-				DEVELOPMENT_TEAM = JKVW4Y7PD6;
+				DEVELOPMENT_TEAM = USTX8WQ57A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_FILE = AuthFlowBlog/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -305,9 +330,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = kisic.filip.AuthFlowBlog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -343,6 +372,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		1279A0662CB554EF005A2039 /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/evgenyneu/keychain-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 24.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -350,6 +387,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 121D5E2E2CA52F5D0082CEC2 /* XCRemoteSwiftPackageReference "Dependency" */;
 			productName = Dependency;
+		};
+		1279A0672CB554EF005A2039 /* KeychainSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1279A0662CB554EF005A2039 /* XCRemoteSwiftPackageReference "keychain-swift" */;
+			productName = KeychainSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
